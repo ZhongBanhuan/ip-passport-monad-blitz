@@ -1,0 +1,27 @@
+{
+  "name": "ip-passport",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "compile": "node scripts/compile.mjs",
+    "test": "node --test",
+    "deploy": "node --env-file-if-exists=.env.local scripts/deploy.mjs",
+    "demo:local": "node scripts/local-demo.mjs"
+  },
+  "dependencies": {
+    "fflate": "0.8.2",
+    "next": "15.5.29",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "viem": "2.40.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.12",
+    "ganache": "7.9.2",
+    "solc": "0.8.30"
+  }
+}

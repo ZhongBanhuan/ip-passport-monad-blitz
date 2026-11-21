@@ -1,0 +1,112 @@
+{
+  "commit": "65871101083b67d0209b57dee22ff908818b6905",
+  "sourceUrl": "https://github.com/ZhongBanhuan/ip-passport-monad-blitz/tree/65871101083b67d0209b57dee22ff908818b6905",
+  "wrapper": {
+    "path": "SKILL.md",
+    "sha256": "0xfa8eeb2a5ce090d5cedb2db6b936de41f13a14d7d5a670d41c403d61976ee9c9",
+    "text": "---\nname: weekly-report\ndescription: 将用户提供的一周工作记录整理成 Markdown 周报。适用于需要汇总已交付成果、阻塞事项和下周安排的场景。\nlicense: MIT (see core/LICENSE.txt)\n---\n\n# 生成周报\n\n向用户确认报告周期、读者和项目，再从用户提供的记录提取事实。每项进展尽量对应交付物、日期或可检查的结果。将尚未确认的数据保留为“待补充”。\n\n基础版使用“本周交付”“待解决事项”“下周安排”三个小节。如果本安装包包含 `templates/`，可按用户的工作类型选用其中一份 Markdown 模板；仅使用当前包中实际存在的文件。\n\n整理出报告标题和各小节条目后，从本 Skill 目录导入 `core/report.mjs` 的 `renderReport` 函数。它接受标题字符串和小节数组，返回 Markdown 字符串。调用形式如下。\n\n```js\nimport { renderReport } from './core/report.mjs'\n\nconst markdown = renderReport({\n  title: '项目周报',\n  sections: [\n    { heading: '本周交付', entries: ['已完成的交付物及验收记录'] },\n    { heading: '待解决事项', entries: ['需要协作方确认的具体问题'] },\n    { heading: '下周安排', entries: ['负责人、行动及目标日期'] }\n  ]\n})\n```\n\n可运行 `node core/report.mjs` 检查转换器的示例输出。向用户交付填写后的 Markdown，检查负责人、数字和日期均来自其提供的材料。\n"
+  },
+  "components": {
+    "core": {
+      "id": "core",
+      "title": "Markdown 转换器",
+      "license": "MIT",
+      "workId": "0x5e206050d72cac76f0ae10185fef8db4e66ee16ff6328e16dfd4911388a9618c",
+      "version": "0x522a10e333ec75bd2412fe519d2adb7f402bf53c37e17afaa0c335e5be775ed3",
+      "directory": "core/",
+      "files": [
+        {
+          "path": "core/LICENSE.txt",
+          "sha256": "0xb1aa2320648192b4a2866876ea8b8e5dba4bf77e795cac97fd40f7e794672554",
+          "text": "MIT License\n\nCopyright (c) 2026 IP Passport Demo Team\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n"
+        },
+        {
+          "path": "core/report.mjs",
+          "sha256": "0xe479f211e07885851d1483f04ad0b375adbec3ad14d6e9825fa4f4d816465c39",
+          "text": "/** Turn weekly observations into a Markdown report. */\nexport function renderReport({ title, sections }) {\n  if (typeof title !== 'string' || !title.trim() || !Array.isArray(sections)) {\n    throw new TypeError('Provide a title and a list of sections.')\n  }\n  const body = sections.map(({ heading, entries }) => {\n    if (typeof heading !== 'string' || !Array.isArray(entries) || !entries.every(e => typeof e === 'string')) {\n      throw new TypeError('Each section needs a heading and text entries.')\n    }\n    return ['## ' + heading.trim(), '', ...entries.map(entry => '- ' + entry.trim())].join('\\n')\n  })\n  return ['# ' + title.trim(), ...body].join('\\n\\n') + '\\n'\n}\n\nif (process.argv[1]?.endsWith('report.mjs')) {\n  console.log(renderReport({ title: '项目周报', sections: [{ heading: '本周交付', entries: ['填写交付物及验收依据'] }] }))\n}\n"
+        }
+      ]
+    },
+    "templates": {
+      "id": "templates",
+      "title": "专业报告模板包",
+      "license": "LicenseRef-Report-Templates",
+      "workId": "0x2c7b4c7dc277d7596602c6473fc6c3dbdd613b8c0fc93415eeecc380904410fc",
+      "version": "0x022651475eea7cf38b7786768e383c2ce6fb048806cfddaa9a988c80b8ad6089",
+      "directory": "templates/",
+      "files": [
+        {
+          "path": "templates/LICENSE.txt",
+          "sha256": "0x0772fb5c349805f07ab2886ac40647397193de01391b06db446934bb6ab8711d",
+          "text": "专业报告模板单项目商业分发许可 · 演示版 1.0\n\n1. 许可对象为本报价指定版本的十二套报告模板。签发方为报价登记的钱包，买方为付款交易的钱包，项目为授权凭证中买方提交的唯一 Skill 项目标识。\n2. 买方支付报价并在测试网交易成功后，就该项目取得非独占、全球、永久的许可，可修改、嵌入并随该收费 Skill 分发模板，且可向终端用户提供生成报告的功能。终端用户可保存、修改及商业使用生成的报告。\n3. 本许可只覆盖凭证中的版本和项目。禁止脱离该 Skill 单独出售或再许可模板包。新版本、另一项目或另一买方需另行取得许可。\n4. 随发布包保留本条款及签发方标识。基础转换代码另受其目录内 MIT 许可约束。\n5. 本次演示使用 0.1 测试 MON。版本摘要、条款摘要和交易回执共同定位一次示例授权。真实主体名称和权利链审核材料应由正式交易各方补充。\n"
+        },
+        {
+          "path": "templates/customer.md",
+          "sha256": "0xceeff27234a0f3e0807aa52a14116306e74ec5aee494cf6e3de1b4c56ba5addf",
+          "text": "# 客户成功周报\n\n报告周期：____　项目：____　编写人：____\n\n## 本周客户目标\n\n客户阶段 | 实现的业务价值 | 验证记录\n--- | --- | ---\n____ | ____ | ____\n\n## 本周判断\n\n按风险说明续约障碍与需要客户确认的事项。\n\n## 下一步\n\n跟进人及下次客户会议：____。\n"
+        },
+        {
+          "path": "templates/delivery.md",
+          "sha256": "0x7054fe6e5a3dbb207d96d9fba8f9760e11641af6f2e26d40246996a1c926041f",
+          "text": "# 项目交付周报\n\n报告周期：____　项目：____　编写人：____\n\n## 本周里程碑\n\n交付范围 | 实际完成 | 验收材料\n--- | --- | ---\n____ | ____ | ____\n\n## 本周判断\n\n说明范围变更和对时间计划的影响。\n\n## 下一步\n\n客户签收人及下一里程碑：____。\n"
+        },
+        {
+          "path": "templates/design.md",
+          "sha256": "0xdfab23e035346e87f29164be1c11c2cd3efde5c538f71ac17abb372645345d96",
+          "text": "# 设计评审周报\n\n报告周期：____　项目：____　编写人：____\n\n## 本周设计目标\n\n用户任务 | 方案版本 | 反馈来源\n--- | --- | ---\n____ | ____ | ____\n\n## 本周判断\n\n说明评审中采纳和暂缓的修改及理由。\n\n## 下一步\n\n交接对象与验收尺度：____。\n"
+        },
+        {
+          "path": "templates/engineering.md",
+          "sha256": "0xab93e03f223e2fb964859389c64d8563b202a108b1e965e9a7f9aa86d329e4d8",
+          "text": "# 研发交付周报\n\n报告周期：____　项目：____　编写人：____\n\n## 已合入的改动\n\nPR 或 commit | 对应目标 | 测试范围\n--- | --- | ---\n____ | ____ | ____\n\n## 本周判断\n\n区分已验收、联调中与等待反馈的交付项。\n\n## 下一步\n\n依赖团队与最迟联调时间：____。\n"
+        },
+        {
+          "path": "templates/finance.md",
+          "sha256": "0xfaba12329d95f075919c17183eb3b73e46a3306c0da68858a2f63107f8c85158",
+          "text": "# 预算执行周报\n\n报告周期：____　项目：____　编写人：____\n\n## 本周预算口径\n\n费用类别 | 预算 | 已发生 | 预测\n--- | --- | --- | ---\n____ | ____ | ____ | ____\n\n## 本周判断\n\n说明偏差原因和对月底现金安排的影响。\n\n## 下一步\n\n待审批调整与凭据日期：____。\n"
+        },
+        {
+          "path": "templates/legal.md",
+          "sha256": "0xba5092aa2d28fcb57f36f0ff6b425e695e028e84c0d0d25e1d426cdda4a76ee0",
+          "text": "# 企业法务周报\n\n报告周期：____　项目：____　编写人：____\n\n## 本周合同与咨询\n\n事项编号 | 业务目标 | 待决条款\n--- | --- | ---\n____ | ____ | ____\n\n## 本周判断\n\n记录授权范围、审批依据和对方反馈。\n\n## 下一步\n\n待业务确认事项及最晚答复日：____。\n"
+        },
+        {
+          "path": "templates/marketing.md",
+          "sha256": "0x528a1a1dc1c4e4c1911490e3a6def58a7c7ffffebd3249a3cab36a29d918681c",
+          "text": "# 活动复盘周报\n\n报告周期：____　项目：____　编写人：____\n\n## 本周活动与受众\n\n渠道 | 投入 | 有效线索 | 归因窗口\n--- | --- | --- | ---\n____ | ____ | ____ | ____\n\n## 本周判断\n\n对照目标解释获客成本和渠道异常。\n\n## 下一步\n\n下一轮投放测试预算：____。\n"
+        },
+        {
+          "path": "templates/operations.md",
+          "sha256": "0x9b62943fedb85605dc4b84ad5b2007cc0665c93ba71f38c7a573d2de19a62af6",
+          "text": "# 服务运营周报\n\n报告周期：____　项目：____　编写人：____\n\n## 服务量与积压\n\n渠道 | 新增工单 | 解决工单 | 期末积压\n--- | --- | --- | ---\n____ | ____ | ____ | ____\n\n## 本周判断\n\n标出超时工单及具体阻塞环节。\n\n## 下一步\n\n服务负责人和响应目标：____。\n"
+        },
+        {
+          "path": "templates/product.md",
+          "sha256": "0xaa4f24b12ebdab6029ad3a00c903ca99f37e8d3f3110bfe702798d985e6ed094",
+          "text": "# 产品迭代周报\n\n报告周期：____　项目：____　编写人：____\n\n## 本周上线的用户变化\n\n需求假设 | 发布批次 | 实际触达人数\n--- | --- | ---\n____ | ____ | ____\n\n## 本周判断\n\n列出留存或转化的基线、观察窗与本周读数。\n\n## 下一步\n\n下一次验证的负责人及样本量：____。\n"
+        },
+        {
+          "path": "templates/research.md",
+          "sha256": "0xedb338349fbdbe1659d37c1f1c3f7cee2352ca3c8d036d383c65e2a59a451ff5",
+          "text": "# 研究实验周报\n\n报告周期：____　项目：____　编写人：____\n\n## 本周研究问题\n\n实验条件 | 对照组 | 样本量 | 观察值\n--- | --- | --- | ---\n____ | ____ | ____ | ____\n\n## 本周判断\n\n记录反例、未控制变量和复现步骤。\n\n## 下一步\n\n下一轮实验成功标准：____。\n"
+        },
+        {
+          "path": "templates/sales.md",
+          "sha256": "0x9d09e63ba6259980eca9fa4e60707e08d2b5a291671db3dadb20663a976f87e7",
+          "text": "# 销售管线周报\n\n报告周期：____　项目：____　编写人：____\n\n## 本周新增商机\n\n商机阶段 | 预计金额 | 客户行动\n--- | --- | ---\n____ | ____ | ____\n\n## 本周判断\n\n说明较上周前进或退回的阶段及依据。\n\n## 下一步\n\n下一位决策人及约定日期：____。\n"
+        },
+        {
+          "path": "templates/security.md",
+          "sha256": "0x93093cdf27bb4601f091811b0f14613b4f68663d7b28d3a72b55c186bd3bd01c",
+          "text": "# 安全整改周报\n\n报告周期：____　项目：____　编写人：____\n\n## 本周风险变化\n\n受影响资产 | 风险等级 | 处置进度\n--- | --- | ---\n____ | ____ | ____\n\n## 本周判断\n\n记录修复工单、验证依据和剩余风险。\n\n## 下一步\n\n责任人及复查日期：____。\n"
+        }
+      ]
+    }
+  },
+  "priceWei": "100000000000000000",
+  "purpose": "paid-skill-distribution",
+  "mitText": "MIT License\n\nCopyright (c) 2026 IP Passport Demo Team\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n",
+  "termsText": "专业报告模板单项目商业分发许可 · 演示版 1.0\n\n1. 许可对象为本报价指定版本的十二套报告模板。签发方为报价登记的钱包，买方为付款交易的钱包，项目为授权凭证中买方提交的唯一 Skill 项目标识。\n2. 买方支付报价并在测试网交易成功后，就该项目取得非独占、全球、永久的许可，可修改、嵌入并随该收费 Skill 分发模板，且可向终端用户提供生成报告的功能。终端用户可保存、修改及商业使用生成的报告。\n3. 本许可只覆盖凭证中的版本和项目。禁止脱离该 Skill 单独出售或再许可模板包。新版本、另一项目或另一买方需另行取得许可。\n4. 随发布包保留本条款及签发方标识。基础转换代码另受其目录内 MIT 许可约束。\n5. 本次演示使用 0.1 测试 MON。版本摘要、条款摘要和交易回执共同定位一次示例授权。真实主体名称和权利链审核材料应由正式交易各方补充。\n",
+  "termsHash": "0x0772fb5c349805f07ab2886ac40647397193de01391b06db446934bb6ab8711d",
+  "rightsText": "# 演示素材来源与核验\n\ncore/report.mjs 与 templates/ 中十二份报告模板为本演示使用生成式 AI 新编的示例材料。示例使用「知识产权护照演示团队」作为签发者显示名。材料编写过程中没有导入真实企业模板、客户文档、商标或第三方报告。\n\n本声明记录材料的生成来源和演示授权范围。项目没有提供真实作者身份证明、职务作品证明、共同作者同意书或人工审核签名。测试网配置者应在启用报价前核对签发地址和自身对材料的实际授权权限。控制源码仓库或钱包的能力与拥有可授予的权利是两项不同的核查。\n\n生产接入时，保留素材作者、AI 辅助情况、贡献者同意、转授权依据及审核人的记录。存在第三方贡献争议时，提交人工复核。\n"
+}

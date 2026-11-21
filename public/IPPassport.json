@@ -1,0 +1,375 @@
+{
+  "compiler": "0.8.30+commit.73712a01.Emscripten.clang",
+  "abi": [
+    {
+      "inputs": [],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "id",
+          "type": "bytes32"
+        }
+      ],
+      "name": "AlreadyPurchased",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "InvalidInput",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "MismatchedParent",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "OfferUnavailable",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "PaymentFailed",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "Unauthorized",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "UnknownVersion",
+      "type": "error"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "id",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "offerId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "buyer",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "bytes32",
+          "name": "projectHash",
+          "type": "bytes32"
+        }
+      ],
+      "name": "GrantIssued",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "offerId",
+          "type": "bytes32"
+        }
+      ],
+      "name": "OfferClosed",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "offerId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "workId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "internalType": "bytes32",
+          "name": "version",
+          "type": "bytes32"
+        }
+      ],
+      "name": "OfferPublished",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "workId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "version",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "internalType": "bytes32",
+          "name": "parent",
+          "type": "bytes32"
+        }
+      ],
+      "name": "VersionRegistered",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "offerId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "projectHash",
+          "type": "bytes32"
+        }
+      ],
+      "name": "buy",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "id",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "offerId",
+          "type": "bytes32"
+        }
+      ],
+      "name": "closeOffer",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "name": "grants",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "offerId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "address",
+          "name": "buyer",
+          "type": "address"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "projectHash",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "uint256",
+          "name": "blockNumber",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "timestamp",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "issuer",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "name": "offers",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "workId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "version",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "termsHash",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "uint256",
+          "name": "price",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address payable",
+          "name": "recipient",
+          "type": "address"
+        },
+        {
+          "internalType": "bool",
+          "name": "active",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "workId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "version",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "parent",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "termsHash",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "uint256",
+          "name": "price",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address payable",
+          "name": "recipient",
+          "type": "address"
+        }
+      ],
+      "name": "publishOffer",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "id",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "workId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "version",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "parent",
+          "type": "bytes32"
+        }
+      ],
+      "name": "registerVersion",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "name": "versions",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "parent",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "uint256",
+          "name": "registeredAtBlock",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x60a0604052348015600e575f5ffd5b50336080526080516109e361003f5f395f818160c0015281816102bd015281816106bc015261078101526109e35ff3fe608060405260043610610079575f3560e01c806359c8d6471161004c57806359c8d647146101dd5780639cc2f88c146101f0578063a20a5b5014610211578063de1f898014610230575f5ffd5b8063111527d91461007d5780631d143848146100af578063309aefe1146100fa578063474d3ff014610149575b5f5ffd5b348015610088575f5ffd5b5061009c6100973660046108f1565b6102b1565b6040519081526020015b60405180910390f35b3480156100ba575f5ffd5b506100e27f000000000000000000000000000000000000000000000000000000000000000081565b6040516001600160a01b0390911681526020016100a6565b348015610105575f5ffd5b5061013461011436600461094d565b5f6020818152928152604080822090935290815220805460019091015482565b604080519283526020830191909152016100a6565b348015610154575f5ffd5b506101a561016336600461096d565b600160208190525f918252604090912080549181015460028201546003830154600490930154919290916001600160a01b03811690600160a01b900460ff1686565b6040805196875260208701959095529385019290925260608401526001600160a01b03166080830152151560a082015260c0016100a6565b61009c6101eb36600461094d565b610495565b3480156101fb575f5ffd5b5061020f61020a36600461096d565b6106b1565b005b34801561021c575f5ffd5b5061020f61022b366004610984565b610776565b34801561023b575f5ffd5b5061028161024a36600461096d565b600260208190525f91825260409091208054600182015492820154600383015460049093015491936001600160a01b031692909185565b604080519586526001600160a01b039094166020860152928401919091526060830152608082015260a0016100a6565b5f336001600160a01b037f000000000000000000000000000000000000000000000000000000000000000016146102fa576040516282b42960e81b815260040160405180910390fd5b83158061030e57506001600160a01b038216155b80610317575082155b156103355760405163b4fa3fb360e01b815260040160405180910390fd5b610340878787610776565b604080516020810189905290810187905260608101859052608081018490526001600160a01b03831660a082015260c00160408051601f1981840301815291815281516020928301205f81815260019093529120600401549091506001600160a01b0316156103c25760405163b4fa3fb360e01b815260040160405180910390fd5b6040805160c0810182528881526020808201898152828401888152606084018881526001600160a01b0380891660808701908152600160a088018181525f8b81529782905296899020975188559451948701949094559151600286015551600385015590516004909301805492511515600160a01b026001600160a81b0319909316939091169290921717905551879082907f9d313fc7de8a6a1afa7c72760d87378b2c436e68c7b60401d54532e0b0602ba990610483908a815260200190565b60405180910390a39695505050505050565b5f8181036104b65760405163b4fa3fb360e01b815260040160405180910390fd5b604080516020810185905233918101919091526060810183905260800160408051601f1981840301815291815281516020928301205f81815260029093529120600101549091506001600160a01b03161561052b5760405163d659f4ab60e01b81526004810182905260240160405180910390fd5b5f8381526001602052604090206004810154600160a01b900460ff16610564576040516305c934c360e01b815260040160405180910390fd5b806003015434146105885760405163b4fa3fb360e01b815260040160405180910390fd5b6040805160a081018252858152336020808301828152838501888152436060860190815242608087019081525f8a81526002808752908990209751885593516001880180546001600160a01b0319166001600160a01b0390921691909117905591519286019290925590516003850155516004909301929092559151858152869185917f9df6d2d2c53aca9cd41f34bfc80d42e3235dd60bdb2685d51ef73fb28a850025910160405180910390a460048101546040515f916001600160a01b03169034908381818185875af1925050503d805f8114610682576040519150601f19603f3d011682016040523d82523d5f602084013e610687565b606091505b50509050806106a9576040516307a4ced160e51b815260040160405180910390fd5b505092915050565b336001600160a01b037f000000000000000000000000000000000000000000000000000000000000000016146106f9576040516282b42960e81b815260040160405180910390fd5b5f81815260016020526040902060040154600160a01b900460ff16610731576040516305c934c360e01b815260040160405180910390fd5b5f81815260016020526040808220600401805460ff60a01b191690555182917fd9a90e2d99fa115ec93196f8204b66193f1c9f7678d1b70ccf50e060cef4a84991a250565b336001600160a01b037f000000000000000000000000000000000000000000000000000000000000000016146107be576040516282b42960e81b815260040160405180910390fd5b8215806107c9575081155b806107d357508082145b156107f15760405163b4fa3fb360e01b815260040160405180910390fd5b5f8381526020818152604080832085845290915290206001810154156108385780548214610832576040516343e4d9c560e11b815260040160405180910390fd5b50505050565b811580159061085e57505f84815260208181526040808320858452909152902060010154155b1561087c57604051632369a9a960e21b815260040160405180910390fd5b6040805180820182528381524360208083019182525f888152808252848120888252909152839020915182555160019091015551839085907f29db59c1b72116110db0badb47338d204eac95121438f31444c1302461e9c09f906108e39086815260200190565b60405180910390a350505050565b5f5f5f5f5f5f60c08789031215610906575f5ffd5b863595506020870135945060408701359350606087013592506080870135915060a08701356001600160a01b038116811461093f575f5ffd5b809150509295509295509295565b5f5f6040838503121561095e575f5ffd5b50508035926020909101359150565b5f6020828403121561097d575f5ffd5b5035919050565b5f5f5f60608486031215610996575f5ffd5b50508135936020830135935060409092013591905056fea26469706673582212200fcd007ac932ff2e5e24282aa5069fc0091d968e4e9b398c1f4695cad6ea266c64736f6c634300081e0033"
+}
