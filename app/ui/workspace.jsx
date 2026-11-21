@@ -2,7 +2,8 @@
 import {sitePath} from "./transport";
 
 import { useEffect, useState } from "react";
-import { Book, Notice } from "./common";
+import {Icon} from "./identity";
+import { Notice } from "./common";
 import { api, shorten, displayError } from "./tools";
 import Review from "./review";
 import Author from "./author";
@@ -85,11 +86,11 @@ export default function Workspace({
     };
   }, []);
   const local = state?.config?.chainId && Number(state.config.chainId) !== 10143;
-  return <><header className="top"><div className="top-inner"><a className="brand" href={sitePath("/")}><Book small /><span>知识产权护照</span></a>
+  return <><header className="top"><div className="top-inner"><a className="brand" href={sitePath("/")}><Icon name="book" size={26}/><span>知识产权护照</span></a>
  <nav aria-label="工作台">{tabs.map(([key, url, label]) => <a key={key} href={sitePath(url)} aria-current={key === view ? "page" : undefined}>{label}</a>)}</nav>
- <button className="wallet" onClick={() => connect().then(() => setErr("")).catch(e => setErr(displayError(e)))}>{wallet ? shorten(wallet, 5) : "连接钱包"}</button></div></header>
- <main><div className="crumb"><span>工作台　/　{tabs.find(t => t[0] === view)[2]}</span><span className="network">{local ? "本地 EVM" : "Monad 测试网"}</span></div>
+ <button className="wallet" onClick={() => connect().then(() => setErr("")).catch(e => setErr(displayError(e)))}><Icon name="wallet" size={16}/>{wallet ? shorten(wallet, 5) : "连接钱包"}</button></div></header>
+ <main>
  <Notice text={err} />{err && !state && <button onClick={refresh}>重新连接服务</button>}
  {view === "check" ? <Review state={state} wallet={wallet} connect={connect} /> : view === "author" ? <Author state={state} wallet={wallet} connect={connect} refresh={refresh} /> : <Verify state={state} />}
- </main><footer><div>知识产权护照</div><span>{process.env.NEXT_PUBLIC_PAGES_BASE ? "公开演示 · 审核记录保存在此浏览器" : "AI Skill 许可审核工作台"}</span></footer></>;
+ </main><footer><span className="network">{local ? "本地 EVM" : "Monad 测试网"}</span><span>{process.env.NEXT_PUBLIC_PAGES_BASE ? "公开演示 · 审核记录保存在此浏览器" : "AI Skill 许可审核工作台"}</span></footer></>;
 }

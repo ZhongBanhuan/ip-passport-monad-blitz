@@ -2,24 +2,16 @@
 
 import { useState } from "react";
 import { shorten, saveFile } from "./tools";
-export function Book({
-  small = false
-}) {
-  return <span className={small ? "book small" : "book"} aria-hidden="true"><i /><b /></span>;
-}
-export function Result({
-  value
-}) {
-  if (!value) return null;
-  const name = {
-    ready: "可发布",
-    blocked: "缺少材料或授权",
-    review: "需人工复核"
-  }[value.decision] || "待确认";
-  return <section className={"result " + (value.decision === "ready" ? "success" : "")} aria-live="polite"><h3>{name}</h3>{value.items?.map((x, i) => <p key={i}><strong>{{
-          core: "Markdown 转换器",
-          templates: "专业报告模板"
-        }[x.id] || x.id}</strong>　{typeof x.reason === "string" ? x.reason : JSON.stringify(x.reason)}</p>)}{value.issues?.filter(x => !value.items?.some(item => item.reason === x)).map((x, i) => <p key={i}>{typeof x === "string" ? x : x.reason || x.message || JSON.stringify(x)}</p>)}<small>发布包指纹 <code title={value.packageHash}>{shorten(value.packageHash, 10)}</code>　规则 {value.ruleVersion}</small></section>;
+export function Result({value}) {
+  if(!value)return null;
+  const ready=value.decision==="ready";
+  const title=ready?"可发布":value.decision==="review"?"需人工复核":"缺少材料或授权";
+  return <section className={"result "+(ready?"success":"")} aria-live="polite"><h3>{title}</h3>
+    {!ready && value.issues?.map((reason,i)=><p key={i}>{reason}</p>)}
+    <details className="details"><summary>逐项依据与指纹</summary>
+      {value.items?.map((item,i)=><p key={i}><strong>{{core:"Markdown 转换器",templates:"专业报告模板"}[item.id] || item.id}</strong>　{item.reason}</p>)}
+      <small>发布包指纹 <code>{value.packageHash}</code></small></details>
+  </section>;
 }
 export function TextPanel({
   title,
